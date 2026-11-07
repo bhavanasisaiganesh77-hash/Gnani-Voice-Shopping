@@ -1,0 +1,108 @@
+import type { Product } from "../types/catalog.ts";
+
+export const products: Product[] = [
+  {
+    id: "urad-dal",
+    brand: "24 Mantra",
+    category: "pulses",
+    price: 145,
+    unit: "1 kg",
+    stock: 24,
+    names: {
+      en: "Urad Dal",
+      te: "మినపప్పు",
+      ta: "உளுத்தம் பருப்பு",
+    },
+  },
+  {
+    id: "aashirvaad-atta",
+    brand: "Aashirvaad",
+    category: "grains",
+    price: 285,
+    unit: "5 kg",
+    stock: 18,
+    names: {
+      en: "Aashirvaad Atta",
+      te: "ఆశీర్వాద్ ఆటా",
+      ta: "ஆசிர்வாத் ஆட்டா",
+    },
+  },
+  {
+    id: "upma-rava",
+    brand: "MTR",
+    category: "grains",
+    price: 62,
+    unit: "1 kg",
+    stock: 30,
+    names: {
+      en: "Upma Rava",
+      te: "ఉప్మా రవ్వ",
+      ta: "உப்மா ரவை",
+    },
+  },
+  {
+    id: "rice",
+    brand: "India Gate",
+    category: "grains",
+    price: 92,
+    unit: "1 kg",
+    stock: 40,
+    names: {
+      en: "Rice",
+      te: "బియ్యం",
+      ta: "அரிசி",
+    },
+  },
+  {
+    id: "toor-dal",
+    brand: "Tata Sampann",
+    category: "pulses",
+    price: 168,
+    unit: "1 kg",
+    stock: 22,
+    names: {
+      en: "Toor Dal",
+      te: "కంది పప్పు",
+      ta: "துவரம் பருப்பு",
+    },
+  },
+  {
+    id: "sugar",
+    brand: "Madhur",
+    category: "essentials",
+    price: 48,
+    unit: "1 kg",
+    stock: 35,
+    names: {
+      en: "Sugar",
+      te: "చక్కెర",
+      ta: "சர்க்கரை",
+    },
+  },
+  {
+    id: "cooking-oil",
+    brand: "Fortune",
+    category: "essentials",
+    price: 175,
+    unit: "1 L",
+    stock: 16,
+    names: {
+      en: "Cooking Oil",
+      te: "వంట నూనె",
+      ta: "சமையல் எண்ணெய்",
+    },
+  },
+  {
+    id: "milk",
+    brand: "Amul",
+    category: "dairy",
+    price: 58,
+    unit: "1 L",
+    stock: 20,
+    names: {
+      en: "Milk",
+      te: "పాలు",
+      ta: "பால்",
+    },
+  },
+];

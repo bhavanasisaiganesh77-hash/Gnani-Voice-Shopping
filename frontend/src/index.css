@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-grove: #15803d;
+  --color-grove-dark: #14532d;
+  --color-grove-soft: #f0fdf4;
+  --color-citrus: #ea580c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background-color: #f0fdf4;
+  color: #14532d;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
