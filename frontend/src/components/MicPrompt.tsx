@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { api } from "../services/api";
 import {
   Mic,
   Square,
@@ -23,12 +24,7 @@ const languageCodes: Record<Language, string> = {
 };
 
 const aliases: Record<string, string[]> = {
-  rice: [
-    "బియ్యం",
-    "అన్నం",
-    "அரிசி",
-    "rice",
-  ],
+  rice: ["బియ్యం", "అన్నం", "அரிசி", "rice"],
   "urad-dal": [
     "మినపప్పు",
     "மினபருப்பு",
@@ -54,11 +50,7 @@ const aliases: Record<string, string[]> = {
     "துவரம் பருப்பு",
     "toor dal",
   ],
-  sugar: [
-    "చక్కెర",
-    "சர்க்கரை",
-    "sugar",
-  ],
+  sugar: ["చక్కెర", "சர்க்கரை", "sugar"],
 };
 
 const numberWords: Record<string, number> = {
@@ -164,25 +156,27 @@ function matchProducts(
 
   mentions.sort((a, b) => a.start - b.start);
 
-  return mentions.map((mention, index) => {
-    const previousEnd =
-      index === 0 ? 0 : mentions[index - 1].end;
+  return mentions
+    .map((mention, index) => {
+      const previousEnd =
+        index === 0 ? 0 : mentions[index - 1].end;
 
-    const quantityText = normalized.slice(
-      previousEnd,
-      mention.start,
-    );
+      const quantityText = normalized.slice(
+        previousEnd,
+        mention.start,
+      );
 
-    const requestedQuantity = getQuantity(quantityText);
+      const requestedQuantity = getQuantity(quantityText);
 
-    return {
-      product: mention.product,
-      quantity: Math.min(
-        requestedQuantity,
-        mention.product.stock,
-      ),
-    };
-  }).filter((item) => item.quantity > 0);
+      return {
+        product: mention.product,
+        quantity: Math.min(
+          requestedQuantity,
+          mention.product.stock,
+        ),
+      };
+    })
+    .filter((item) => item.quantity > 0);
 }
 
 // Convert Chrome-recorded audio into WAV for Gnani Prisma.
@@ -232,16 +226,19 @@ async function convertToWav(blob: Blob): Promise<Blob> {
     view.setUint16(20, 1, true);
     view.setUint16(22, channels, true);
     view.setUint32(24, sampleRate, true);
+
     view.setUint32(
       28,
       sampleRate * channels * bytesPerSample,
       true,
     );
+
     view.setUint16(
       32,
       channels * bytesPerSample,
       true,
     );
+
     view.setUint16(34, 16, true);
     writeString(36, "data");
     view.setUint32(40, dataSize, true);
@@ -320,8 +317,16 @@ export function MicPrompt() {
         languageCodes[language],
       );
 
+      const baseURL = api.defaults.baseURL;
+
+      if (!baseURL) {
+        throw new Error(
+          "Backend URL is not configured. Please check VITE_API_BASE_URL.",
+        );
+      }
+
       const response = await fetch(
-        "http://127.0.0.1:8000/stt",
+        `${baseURL.replace(/\/+$/, "")}/stt`,
         {
           method: "POST",
           body: formData,
