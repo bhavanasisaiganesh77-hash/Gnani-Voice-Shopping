@@ -1,21 +1,49 @@
 import { useLanguage } from "../context/LanguageContext.tsx";
-import { categoryIds, type CategoryFilter } from "../types/catalog.ts";
 
 type CategoryBarProps = {
-  value: CategoryFilter;
-  onChange: (value: CategoryFilter) => void;
+  value: string;
+  onChange: (value: string) => void;
+  categories: string[];
 };
 
-export function CategoryBar({ value, onChange }: CategoryBarProps) {
+export function CategoryBar({
+  value,
+  onChange,
+  categories,
+}: CategoryBarProps) {
   const { t } = useLanguage();
-  const options: CategoryFilter[] = ["all", ...categoryIds];
+
+  const options = [
+    "all",
+    ...Array.from(
+      new Set(
+        categories
+          .map((category) => category.trim())
+          .filter(Boolean)
+      )
+    ),
+  ];
+
+  const getCategoryLabel = (category: string) => {
+    if (category === "all") {
+      return t.all;
+    }
+
+    return category
+      .replace(/[_-]/g, " ")
+      .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  };
 
   return (
     <div className="mt-4">
-      <p className="text-lg font-semibold text-grove-dark">{t.categories}</p>
+      <p className="text-lg font-semibold text-grove-dark">
+        {t.categories}
+      </p>
+
       <div className="mt-2 flex gap-2 overflow-x-auto pb-1">
         {options.map((option) => {
           const selected = option === value;
+
           return (
             <button
               key={option}
@@ -28,7 +56,7 @@ export function CategoryBar({ value, onChange }: CategoryBarProps) {
                   : "bg-white text-grove ring-1 ring-green-200 hover:bg-grove-soft"
               }`}
             >
-              {t[option]}
+              {getCategoryLabel(option)}
             </button>
           );
         })}
